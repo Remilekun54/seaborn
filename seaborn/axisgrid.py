@@ -19,10 +19,6 @@ from ._docstrings import (
     _core_docs,
 )
 
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from matplotlib.axes import Axes
-
 __all__ = ["FacetGrid", "PairGrid", "JointGrid", "pairplot", "jointplot"]
 
 
@@ -314,8 +310,6 @@ _facet_docs = dict(
 class FacetGrid(Grid):
     """Multi-plot grid for plotting conditional relationships."""
 
-    axes_dict: dict[tuple | str, Axes]
-
     @_deprecate_positional_args
     def __init__(
         self, data, *,
@@ -324,7 +318,7 @@ class FacetGrid(Grid):
         row_order=None, col_order=None, hue_order=None, hue_kws=None,
         dropna=False, legend_out=True, despine=True,
         margin_titles=False, xlim=None, ylim=None, subplot_kws=None,
-        gridspec_kws=None, size=None, pyplot=True,
+        gridspec_kws=None, size=None,
     ):
 
         super(FacetGrid, self).__init__()
@@ -406,10 +400,7 @@ class FacetGrid(Grid):
 
         # Disable autolayout so legend_out works properly
         with mpl.rc_context({"figure.autolayout": False}):
-            if pyplot:
-                fig = plt.figure(figsize=figsize)
-            else:
-                fig = mpl.figure.Figure(figsize=figsize)
+            fig = plt.figure(figsize=figsize)
 
         if col_wrap is None:
 
